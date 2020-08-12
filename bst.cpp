@@ -11,6 +11,7 @@ BSTree_t * newBST(CmpFunc_t* cmp, GetKeyFunc_t * getKey) {
         pBST->cmp = cmp;
         pBST->getKey = (getKey == NULL) ? defaultKey : getKey;
     }
+
     return pBST;
 }
 
@@ -26,6 +27,8 @@ void BST_clear(BSTree_t * pBST) {
     clear(pBST->root);    
 }
 
+// вспомогательная функция для поиска минимального 
+// значения в правой ветви древа
 static BSTNode_t * detachMin(BSTNode_t **ppNode) {
     BSTNode_t * pNode = *ppNode;
     if (pNode == NULL) return NULL;
@@ -37,7 +40,8 @@ static BSTNode_t * detachMin(BSTNode_t **ppNode) {
     }
 }
 
-static bool delete_data(BSTree_t * pBST,BSTNode_t **ppNode, const void * pData) {
+// вспомогательная функция для удаления данных из дерева
+static bool delete_data(BSTree_t * pBST, BSTNode_t **ppNode, const void * pData) {
     BSTNode_t *pNode = *ppNode;
     if (pNode == NULL) return false;
     int cmp_res = pBST->cmp(pData, pBST->getKey(pNode->data));
@@ -162,6 +166,7 @@ int BST_preorder (BSTree_t *pBST, bool (*action)(const void * pData)) {
         return preorder(pBST->root, action);
    }
 }
+
 static int postorder (BSTNode_t * pNode, bool (*action)(const void *pData)) {
     if (pNode == NULL) return 0; 
     int count  = 0;
